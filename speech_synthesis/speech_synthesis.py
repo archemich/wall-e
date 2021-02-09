@@ -1,5 +1,13 @@
-import pyttsx3 as ttsx
+import pyttsx3
+from settings import voicepack, rate, volume
+class SpeechSynthesiser:
+    def __init__(self):
+        self.tts = pyttsx3.init()
+        self.tts.setProperty('voice', voicepack)
+        self.tts.setProperty('rate', rate) 
+        self.tts.setProperty('volume', volume) 
 
-engine = ttsx.init()
-engine.say("Test")
-engine.runAndWait()
+    def say(self, text):
+        self.tts.say(text)
+        self.tts.runAndWait()
+        
