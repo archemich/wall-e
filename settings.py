@@ -4,7 +4,9 @@ recognition_language = 'ru-RU'
 
 ######## Synthesis settings #############################
 voicepack = 'ru'
-rate = 100           #talking speed
+rate = 120           #talking speed
 volume = 1
 
+######## Restourant settings #############################
 
+menu = ['Голубцы куринные', 'Борщ зеленый']
