@@ -10,4 +10,5 @@
 2. Запуск 
     ```
     python main.py
+    go to localhost:5000
     ```
