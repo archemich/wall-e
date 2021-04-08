@@ -5,6 +5,7 @@
     pip install flask (и добавить flask в PATH)
     pip install opencv-python
     pip install numpy
+    pip install opencv
     ```
 2. Запуск 
     ```
