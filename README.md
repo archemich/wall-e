@@ -2,10 +2,11 @@
 
 1. Установка необходимых библиотек
     ```
-    pip3 install flask
-    pip3 install opencv-python
+    pip install flask (и добавить flask в PATH)
+    pip install opencv-python
+    pip install numpy
     ```
 2. Запуск 
     ```
-    python3 main.py
+    python main.py
     ```
