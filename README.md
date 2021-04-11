@@ -6,3 +6,4 @@
     python3 main.py
 ## Запуск Spring
     mvn spring-boot:run
+
