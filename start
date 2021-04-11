@@ -1,0 +1,5 @@
+#!/bin/bash
+
+gotty --port 8081 -w tmux &
+python3 opencv/main.py &
+cd site && mvn spring-boot:run &
