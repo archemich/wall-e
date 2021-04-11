@@ -28,7 +28,7 @@
     ```
     mvn clean
     mvn build
-    mvn spring0boot:run
+    mvn spring-boot:run
     ```
 
 # Интеграция консоли в сайт
