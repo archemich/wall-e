@@ -1,9 +1,11 @@
 # Project-WALLE
-Waste Allocation Load Lifter, Earth-class
 
-Версия Python 3.9.1+
+### Установка библиотек необходимых для работы (SpeechRecognition, pyttsx3, PyAudio):
+1. pip3 install SpeechRecognition
+2. pip3 install pyttsx3
 
-Библиотеки необходимые для установки:
-SpeechRecognition
-pyttsx3
-PyAudio
+### Установка PyAudio и доп зависимостей:
+1. sudo apt-get install portaudio19-dev
+2. pip install PyAudio
+
+### Запуск
