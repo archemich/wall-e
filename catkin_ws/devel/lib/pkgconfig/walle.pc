@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Project-WALLE/catkin_ws/devel
+
+Name: walle
+Description: Description of walle
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

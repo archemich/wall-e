@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ubuntu/Project-WALLE/catkin_ws/devel/setup.sh
