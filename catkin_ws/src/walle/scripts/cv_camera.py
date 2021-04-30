@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
 from flask import Flask, render_template, Response
 from camera import VideoCamera
 import numpy as np
 import cv2
+import rospy
 
 app = Flask(__name__)
 

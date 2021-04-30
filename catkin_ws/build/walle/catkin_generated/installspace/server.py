@@ -12,13 +12,14 @@ from adafruit_servokit import ServoKit
 def publisher_setup():
     global pubBase
     pubBase = rospy.Publisher("base", String, queue_size=16)
-    pubServos = rospy.Publisher("joints", Int16, queue_size=16)
-    pubHandL = rospy.Publisher("HandL", Int16, queue_size=16)
-    pubDist = rospy.Publisher("distance", Int16, queue_size=50)
+    global pubServos
+    pubServos = rospy.Publisher("joints", String, queue_size=16)
+    pubDist = rospy.Publisher("distance", String, queue_size=50)
 
 
 # Parsing the received command
 def check_parse(messArr):
+    rospy.loginfo(messArr)
     parsedLine = messArr.split(" ")
     print(" \ ".join(parsedLine))
     if parsedLine[0] == 'J':
@@ -26,13 +27,19 @@ def check_parse(messArr):
         mess += parsedLine[1] + " " +  parsedLine[2]
         # mess.append(int(parsedLine[2]))
         # mess.append(int(parsedLine[1]))
-        rospy.loginfo(mess)
+        # rospy.loginfo(mess)
         pubBase.publish(mess)
         rate.sleep()
     elif parsedLine[0] == 'L' or parsedLine[0] == 'R':
         mess = ""
         mess += parsedLine[0] + " " + parsedLine[1]
-        rospy.loginfo(mess)
+        # rospy.loginfo(mess)
+        pubServos.publish(mess)
+        rate.sleep()
+    elif parsedLine[0] == 'T':
+        mess = ""
+        mess += parsedLine[0] + " " + parsedLine[1] + " " + parsedLine[2]
+        # rospy.loginfo(mess)
         pubServos.publish(mess)
         rate.sleep()
     if parsedLine[0] == 'E':

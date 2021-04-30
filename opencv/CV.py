@@ -12,9 +12,9 @@ else:
     hsv_min = np.array((110,120,120), np.uint8)
     hsv_max = np.array((130,255,255), np.uint8)
 #окна для вывода инфы(отключить на малинке)
-cv2.namedWindow( "result" ) 
-cv2.namedWindow( "contours" ) 
-cv2.namedWindow( "thresh" ) 
+# cv2.namedWindow( "result" ) 
+# cv2.namedWindow( "contours" ) 
+# cv2.namedWindow( "thresh" ) 
 
 
 # цвет прямоугольника (B, G, R)
@@ -93,5 +93,5 @@ while (cap.isOpened()):
 
 
 cap.release()
-cv2.destroyAllWindows()
+# cv2.destroyAllWindows()
 
