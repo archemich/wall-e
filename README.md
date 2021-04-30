@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # "Железная" часть робота 
 
 ## Установка ROS Noetic
@@ -105,3 +106,19 @@
     4. rosrun beginner_tutorials talker.py   
     5. rosrun beginner_tutorials listener.py 
     ```
+=======
+## Видеострим для сайта 
+
+1. Установка необходимых библиотек
+    ```
+    pip install flask (и добавить flask в PATH)
+    pip install opencv-python
+    pip install numpy
+    pip install opencv
+    ```
+2. Запуск 
+    ```
+    python main.py
+    go to localhost:5000
+    ```
+>>>>>>> opencv

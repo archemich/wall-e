@@ -14,7 +14,6 @@ def publisher_setup():
     pubBase = rospy.Publisher("base", String, queue_size=16)
     global pubServos
     pubServos = rospy.Publisher("joints", String, queue_size=16)
-    pubHandL = rospy.Publisher("HandL", String, queue_size=16)
     pubDist = rospy.Publisher("distance", String, queue_size=50)
 
 
