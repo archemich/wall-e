@@ -8,6 +8,9 @@ sr.calibrate()
 ss = SpeechSynthesiser()
 
 cmdCtrl = commandControl(ss, sr)
+#INSTALL ESPEAK, FLACK
+# sudo apt update 
+# sudo apt install python-espeak
 
 # Работает приоритет. Команды выше сработают первыми.
 opts = {"cmds": {

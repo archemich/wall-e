@@ -1,5 +1,6 @@
 ######## Recognition settings #############################
-dev_index = 0       #microphone device_index
+#IMPORTANT CHECK FIRST YOUR DEVICE INDEX
+dev_index = 1       #microphone device_index
 recognition_language = 'ru-RU'
 
 ######## Synthesis settings #############################
