@@ -69,7 +69,7 @@ def move_hand(handNum):
 
 def hand_home(arm=0, hand=0):	
 	if arm:
-		kit.servo[handLeft].angle = 0
+		kit.servo[handLeft].angle = 0 
 		kit.servo[handRight].angle = 180
 	else:
 		kit.servo[handLeft].angle = 180

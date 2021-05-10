@@ -1,6 +1,7 @@
 <launch>
-    <node name="server" pkg="walle" type="server.py" output="screen"/>
+    <node name="server" pkg="walle" type="server.py"  output="screen"/>
     <node name="servo" pkg="walle" type="servo_control.py" />
     <node name="tracks" pkg="walle" type="wheels.py"/>
     <node name="cv_camera" pkg="walle" type="cv_camera.py"/>
+    <node name="voice_rec" pkg="walle" type="audio_reaction.py" output="screen"/>
 </launch>

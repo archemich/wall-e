@@ -4,6 +4,7 @@ import rospy
 from std_msgs.msg import String
 
 def setup_gpio():
+    GPIO.setwarnings(False)
     GPIO.cleanup()
     GPIO.setmode(GPIO.BCM)
 
@@ -32,6 +33,7 @@ def move(data):
         if ang in range(75, 105):
             GPIO.output(17, GPIO.HIGH)
             GPIO.output(22, GPIO.HIGH)
+
         elif ang in range(0, 75)or ang in range(286, 360):
             GPIO.output(22, GPIO.HIGH)
             GPIO.output(10, GPIO.HIGH)
@@ -51,6 +53,7 @@ def move(data):
 
 def listen():
     rospy.init_node("wheels")
+    
     rospy.Subscriber("base", String, move)
 
     rospy.spin()

@@ -10,6 +10,8 @@ import RPi.GPIO as GPIO
 from adafruit_servokit import ServoKit
 
 def publisher_setup():
+    global pubVoice
+    pubVoice = rospy.Publisher("voice", String, queue_size=16)
     global pubBase
     pubBase = rospy.Publisher("base", String, queue_size=16)
     global pubServos
@@ -29,6 +31,7 @@ def check_parse(messArr):
         # mess.append(int(parsedLine[1]))
         # rospy.loginfo(mess)
         pubBase.publish(mess)
+        pubVoice.publish("play robo-short-64")
         rate.sleep()
     elif parsedLine[0] == 'L' or parsedLine[0] == 'R':
         mess = ""
