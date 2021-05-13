@@ -9,18 +9,38 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+# greeen
+# hsv_min = np.array((51,49,47), np.uint8)
+# hsv_max = np.array((84,255,255), np.uint8)
+
+# red
+# hsv_min = np.array((169,97,35), np.uint8)
+# hsv_max = np.array((255,255,255), np.uint8)
+
+
+# blue
+# hsv_min = np.array((90,134,65), np.uint8)
+# hsv_max = np.array((120,209,255), np.uint8)
+
+
+
+
 def gen(camera):
     while True:
-        USLOVNAYA_PEREMENNAYA = 0
-        RECTCOLOR = (0, 255, 0)
+        USLOVNAYA_PEREMENNAYA = 2
+        RECTCOLOR = (103, 143, 134)
         RTHICK = 2
         if(USLOVNAYA_PEREMENNAYA == 0):
-            hsv_min = np.array((40,100,100), np.uint8)
-            hsv_max = np.array((80,255,255), np.uint8)
-        else:
-            hsv_min = np.array((110,120,120), np.uint8)
-            hsv_max = np.array((130,255,255), np.uint8)
-        
+            hsv_min = np.array((51,49,47), np.uint8)
+            hsv_max = np.array((84,255,255), np.uint8)
+        elif USLOVNAYA_PEREMENNAYA == 1:
+            hsv_min = np.array((169,97,35), np.uint8)
+            hsv_max = np.array((255,255,255), np.uint8)
+        elif USLOVNAYA_PEREMENNAYA == 2:
+            hsv_min = np.array((90,134,65), np.uint8)
+            hsv_max = np.array((120,209,255), np.uint8)
+
+
         BLOBSIZE_STOP = 40000
         BLOBSIZE = 700
         my_color = (0,0,255)
@@ -85,5 +105,4 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    rospy.init_node("cv_camera")
     app.run(host='0.0.0.0', debug=True)

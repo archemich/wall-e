@@ -7,7 +7,7 @@ class VideoCamera(object):
         # instead.
         height = 720
         width = 1280
-        self.video = cv2.VideoCapture(0)
+        self.video = cv2.VideoCapture(1)
         self.video.set(3, width)
         self.video.set(4, height)
         # If you decide to use video.mp4, you must have this file in the folder
