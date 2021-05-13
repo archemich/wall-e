@@ -23,8 +23,11 @@ def on_board_systems_check():
     for i in range(180):
         mess = 'L' + ' ' + str(i)
         pubServos.publish(mess)
-        time.sleep(0.05)
-        
+        time.sleep(0.01)
+    for i in range(180):
+        mess = 'R' + ' ' + str(i)
+        pubServos.publish(mess)
+        time.sleep(0.01)   
 
 def publisher_setup():
     global pubVoice
