@@ -4,4 +4,5 @@
     <node name="tracks" pkg="walle" type="wheels.py"/>
     <node name="cv_camera" pkg="walle" type="cv_camera.py"/>
     <node name="voice_rec" pkg="walle" type="audio_reaction.py" output="screen"/>
+    <node name="sonar" pkg="walle" type="sonar_sensor.py" output="screen"/>
 </launch>
