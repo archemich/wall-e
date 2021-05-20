@@ -11,12 +11,12 @@ def setup_gpio():
     GPIO.setup(17, GPIO.OUT)
     GPIO.setup(22, GPIO.OUT)
     GPIO.setup(27, GPIO.OUT)
-    GPIO.setup(10, GPIO.OUT)
+    GPIO.setup(25, GPIO.OUT)
 
     GPIO.output(17, GPIO.LOW)
     GPIO.output(22, GPIO.LOW)
     GPIO.output(27, GPIO.LOW)
-    GPIO.output(10, GPIO.LOW)
+    GPIO.output(25, GPIO.LOW)
 
 def move(data):
     #change data input from messArr to data.data
@@ -30,24 +30,23 @@ def move(data):
     ang = int(value[0])
     amp = int(value[1])
     if int(amp) > 50:
-        if ang in range(75, 105):
+        if ang in range(75, 105):#fwd
             GPIO.output(17, GPIO.HIGH)
             GPIO.output(22, GPIO.HIGH)
-
-        elif ang in range(0, 75)or ang in range(286, 360):
+        elif ang in range(0, 75)or ang in range(286, 360):#L
             GPIO.output(22, GPIO.HIGH)
-            GPIO.output(10, GPIO.HIGH)
-        elif ang in range(106, 256):
+            GPIO.output(25, GPIO.HIGH)
+        elif ang in range(106, 256):#R
             GPIO.output(17, GPIO.HIGH)
             GPIO.output(27, GPIO.HIGH)
-        elif ang in range(256, 286):
-            GPIO.output(10, GPIO.HIGH)
+        elif ang in range(256, 286):#back
+            GPIO.output(25, GPIO.HIGH)
             GPIO.output(27, GPIO.HIGH)
     else:
         GPIO.output(17, GPIO.LOW)
         GPIO.output(22, GPIO.LOW)
         GPIO.output(27, GPIO.LOW)
-        GPIO.output(10, GPIO.LOW)
+        GPIO.output(25, GPIO.LOW)
     # time.sleep(0.005)
 
 

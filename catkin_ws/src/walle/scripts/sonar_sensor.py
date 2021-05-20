@@ -25,8 +25,6 @@ class sonar():
         self.distance_publisher.publish(data)
         rospy.loginfo(dist)
 
-
-
         
 gpio.setmode(gpio.BCM)
 trig = 24 # 7th
