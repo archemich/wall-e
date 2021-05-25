@@ -10,7 +10,6 @@ from playsound import playsound
 
 import RPi.GPIO as GPIO
 from adafruit_servokit import ServoKit
-
 global moveAngle
 moveAngle = 0
 

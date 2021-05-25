@@ -16,12 +16,14 @@ fingaLeft = 14
 fingaRight = 15
 
 def move_smth(data):
+	print("Вызвался!!")
 	rospy.loginfo(data.data)
 	print(data.data)
 	value = data.data
 	value = value.split(" ")
 	
 	if value[0] == 'S':
+		print("Принял!!")
 		hand_home(1,1)
 		return
 	elif value[0] == 'R':
@@ -112,9 +114,11 @@ def hand_home(arm=0, hand=0):
 def listen():
     rospy.init_node("servos")
     rospy.Subscriber("joints", String, move_smth)
-
+    time.sleep(3)
+    # hand_home(1,1)
     rospy.spin()
 
 
 if __name__ == '__main__':
 	listen()
+

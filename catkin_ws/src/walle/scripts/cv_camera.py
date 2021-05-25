@@ -18,6 +18,41 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+def set_hsv():
+    global USLOVNAYA_PEREMENNAYA,hsv_min, hsv_max
+    if(USLOVNAYA_PEREMENNAYA == 0): # red
+        hsv_min = np.array((0,42,125), np.uint8)
+        hsv_max = np.array((12,137,194), np.uint8)
+    elif USLOVNAYA_PEREMENNAYA == 1: # blu
+        hsv_min = np.array((86,58,137), np.uint8)
+        hsv_max = np.array((121,255,178), np.uint8)
+    elif USLOVNAYA_PEREMENNAYA == 2: # green
+        hsv_min = np.array((39,49,70), np.uint8)
+        hsv_max = np.array((60,155,243), np.uint8)
+    return
+
+def init_cv():
+    global height, width, width_center, RECTCOLOR, RTHICK, hsv_min, hsv_max, kernel, BLOBSIZE_STOP, BLOBSIZE
+    global my_color, crange
+    height = 720
+    width = 1280
+    width_center=width/2;
+    global USLOVNAYA_PEREMENNAYA
+    USLOVNAYA_PEREMENNAYA = 0
+    set_hsv()
+
+    RECTCOLOR = (103, 143, 134)
+    RTHICK = 2
+    
+    
+    
+    
+
+    BLOBSIZE_STOP = 300000
+    BLOBSIZE = 700
+    my_color = (0,0,255)
+    crange = [0,0,0, 0,0,0]
+
 # if DEBUG:
     
 
@@ -37,7 +72,7 @@ def index():
 
 def rotate_command(direction, amount = 0):
     delay = amount/640
-    delay = 0.1 
+    delay = 0.1
     if direction == "L":
         pubBase.publish("110"+" "+"60")
         time.sleep(delay)
@@ -62,53 +97,30 @@ def color_check():
     global USLOVNAYA_PEREMENNAYA
     if USLOVNAYA_PEREMENNAYA == 1:
         USLOVNAYA_PEREMENNAYA = 0
+        set_hsv()
         time.sleep(2)
         return
     if USLOVNAYA_PEREMENNAYA == 0:
         USLOVNAYA_PEREMENNAYA = 2
+        set_hsv()
         time.sleep(2)
         return 
 
+def checkSize(w, h):
+    if w * h > BLOBSIZE:
+        return True
+    else:
+        return False
+            
+def stop(w,h):
+    if w*h>BLOBSIZE_STOP:
+        return True
+    else:
+        return False
+
 def gen(camera):
     #print("I M IN FUNC")
-    global USLOVNAYA_PEREMENNAYA
-    USLOVNAYA_PEREMENNAYA = 1
-
-    RECTCOLOR = (103, 143, 134)
-    RTHICK = 2
-    if(USLOVNAYA_PEREMENNAYA == 0): # red
-        hsv_min = np.array((0,42,125), np.uint8)
-        hsv_max = np.array((12,137,194), np.uint8)
-    elif USLOVNAYA_PEREMENNAYA == 1: # blu
-        hsv_min = np.array((86,58,137), np.uint8)
-        hsv_max = np.array((121,255,178), np.uint8)
-    elif USLOVNAYA_PEREMENNAYA == 2: # green
-        hsv_min = np.array((31,49,70), np.uint8)
-        hsv_max = np.array((60,155,243), np.uint8)
-
-
-    BLOBSIZE_STOP = 300000
-    BLOBSIZE = 700
-    my_color = (0,0,255)
-    crange = [0,0,0, 0,0,0]
-    
-    def checkSize(w, h):
-        if w * h > BLOBSIZE:
-            return True
-        else:
-            return False
-            
-    def stop(w,h):
-        if w*h>BLOBSIZE_STOP:
-            return True
-        else:
-            return False
-
     while True:
-        #print("I M IN CYCLE")
-        height = 720
-        width = 1280
-        width_center=width/2;
         img = camera.get_frame()
         time.sleep(1)
         img = camera.get_frame()
@@ -120,19 +132,31 @@ def gen(camera):
         cv2.erode(thresh, kernel, iterations = 1)
         cv2.drawContours(img, contours, -1, (255, 0, 0), 2, cv2.LINE_AA, hierarchy, 0)
         cv2.drawContours(img, contours, -1, (255, 0, 0), 2, cv2.LINE_AA, hierarchy, 2)
-        center_rectangle = 2
-        x,y,w,h = 1,2,3,4
-        if len(contours) != 0:
+        # center_rectangle = 2
+        # x,y,w,h = 1,2,3,4
+        if len(contours) == 0:
+            rotate_command("R", abs(width_center - center_rectangle))
+            print("IA NI4EGO NE VIJU")
+            print("!              ", end="")
+        else:
             c = max(contours, key = cv2.contourArea)
             x,y,w,h = cv2.boundingRect(c)
+        
+
+        cv2.rectangle(img, (x, y), (x+w, y+h), RECTCOLOR, RTHICK)
+        cv2.putText(img, str(x)+" "+str(y), (x,y), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
+        cv2.putText(img, str(x+h)+" "+str(y), (x+h,y), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
+        cv2.putText(img, str(x)+" "+str(y+w), (x,y+w), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
+        cv2.putText(img, str(x+h)+" "+str(y+w), (x+h,y+w), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
+        center_rectangle = x + h/2;
+
+
+        if len(contours) != 0:
+            
+            
             if checkSize(w, h):
                 # выводим его str("UP left")str("UP right")str("down left")str("down right")
-                cv2.rectangle(img, (x, y), (x+w, y+h), RECTCOLOR, RTHICK)
-                cv2.putText(img, str(x)+" "+str(y), (x,y), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
-                cv2.putText(img, str(x+h)+" "+str(y), (x+h,y), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
-                cv2.putText(img, str(x)+" "+str(y+w), (x,y+w), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
-                cv2.putText(img, str(x+h)+" "+str(y+w), (x+h,y+w), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, my_color, 2, cv2.LINE_AA)
-                center_rectangle = x + h/2;
+                
                 if stop(w,h):
                     print("usl"+str(USLOVNAYA_PEREMENNAYA))
                     print("\nSTOP")
@@ -142,30 +166,26 @@ def gen(camera):
                     color_check()
                     print("usl"+str(USLOVNAYA_PEREMENNAYA))
                     continue
+                elif (width_center < center_rectangle and abs(width_center-center_rectangle)>width_center/12):
+                    print(" GO RIGHT", end="")
+                    if not DEBUG:
+                        rotate_command("R", abs(width_center - center_rectangle))
+                        continue
+                elif(width_center > center_rectangle and abs(width_center-center_rectangle)>width_center/12):
+                    print(" GO LEFT", end="")
+                    if not DEBUG:
+                        rotate_command("L", abs(width_center - center_rectangle))
+                        continue
                 else: 
-                    if(width_center < center_rectangle and abs(width_center-center_rectangle)>width_center/12):
-                        print("\r GO RIGHT", end="")
-                        if not DEBUG:
-                            rotate_command("R", abs(width_center - center_rectangle))
-                            continue
-                    else: 
-                        if(width_center > center_rectangle and abs(width_center-center_rectangle)>width_center/12):
-                            print("\r GO LEFT", end="")
-                            if not DEBUG:
-                                rotate_command("L", abs(width_center - center_rectangle))
-                                continue
-                        else: 
-                            print(" \r GO FORWARD", end="")
-                            if not DEBUG:
-                                rotate_command("F", abs(width_center - center_rectangle))
-                                continue
+                    print("  GO FORWARD", end="")
+                    if not DEBUG:
+                        rotate_command("F", abs(width_center - center_rectangle))
+                        continue
 
-        
-        if not DEBUG:
-            rotate_command("R", 300)
-            print("\rIA NI4EGO NE VIJU")
-            print("\r!              ", end="")
-
+  
+        rotate_command("R", abs(width_center - center_rectangle))
+        print("IA NI4EGO NE VIJU")
+        print("!              ", end="")
 
 
         time.sleep(1)
@@ -185,6 +205,7 @@ def video_feed():
 if __name__ == '__main__':
     rospy.init_node("cv_camera")
     # time.sleep(5)
-    gen(VideoCamera())
+    init_cv()
+    # gen(VideoCamera())
 
     app.run(host='0.0.0.0', debug=True)
