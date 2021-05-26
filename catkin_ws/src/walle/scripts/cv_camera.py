@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import time
-from flask import Flask, render_template, Response
+# from flask import Flask, render_template, Response
 from camera import VideoCamera
 import numpy as np
 import cv2
@@ -13,10 +13,10 @@ DEBUG = False
 global pubBase
 pubBase = rospy.Publisher("base", String, queue_size=16)
 
-app = Flask(__name__)
-@app.route('/')
-def index():
-    return render_template('index.html')
+# app = Flask(__name__)
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 def set_hsv():
     global USLOVNAYA_PEREMENNAYA,hsv_min, hsv_max
@@ -31,6 +31,28 @@ def set_hsv():
         hsv_max = np.array((60,155,243), np.uint8)
     return
 
+def color_check():
+    global USLOVNAYA_PEREMENNAYA
+    if USLOVNAYA_PEREMENNAYA == 2:
+        USLOVNAYA_PEREMENNAYA = 0
+        set_hsv()
+        plstr = "/home/ubuntu/Project-WALLE/catkin_ws/src/walle/scripts/sounds/robo-short-47.wav"
+        playsound(plstr)
+        time.sleep(2)
+        return
+    if USLOVNAYA_PEREMENNAYA == 0:
+        USLOVNAYA_PEREMENNAYA = 1
+        set_hsv()
+        plstr = "/home/ubuntu/Project-WALLE/catkin_ws/src/walle/scripts/sounds/robo-short-53.wav"
+        playsound(plstr)
+        time.sleep(2)
+        return 
+    if USLOVNAYA_PEREMENNAYA == 1:
+        plstr = "/home/ubuntu/Project-WALLE/catkin_ws/src/walle/scripts/sounds/robo-long-15.wav"
+        playsound(plstr)
+        exit()
+        return
+
 def init_cv():
     global height, width, width_center, RECTCOLOR, RTHICK, hsv_min, hsv_max, kernel, BLOBSIZE_STOP, BLOBSIZE
     global my_color, crange
@@ -38,7 +60,7 @@ def init_cv():
     width = 1280
     width_center=width/2;
     global USLOVNAYA_PEREMENNAYA
-    USLOVNAYA_PEREMENNAYA = 0
+    USLOVNAYA_PEREMENNAYA = 2
     set_hsv()
 
     RECTCOLOR = (103, 143, 134)
@@ -93,18 +115,7 @@ def rotate_command(direction, amount = 0):
     return
 
 
-def color_check():
-    global USLOVNAYA_PEREMENNAYA
-    if USLOVNAYA_PEREMENNAYA == 1:
-        USLOVNAYA_PEREMENNAYA = 0
-        set_hsv()
-        time.sleep(2)
-        return
-    if USLOVNAYA_PEREMENNAYA == 0:
-        USLOVNAYA_PEREMENNAYA = 2
-        set_hsv()
-        time.sleep(2)
-        return 
+
 
 def checkSize(w, h):
     if w * h > BLOBSIZE:
@@ -119,6 +130,8 @@ def stop(w,h):
         return False
 
 def gen(camera):
+    center_rectangle = 2
+    x,y,w,h = 1,2,3,4
     #print("I M IN FUNC")
     while True:
         img = camera.get_frame()
@@ -132,10 +145,9 @@ def gen(camera):
         cv2.erode(thresh, kernel, iterations = 1)
         cv2.drawContours(img, contours, -1, (255, 0, 0), 2, cv2.LINE_AA, hierarchy, 0)
         cv2.drawContours(img, contours, -1, (255, 0, 0), 2, cv2.LINE_AA, hierarchy, 2)
-        # center_rectangle = 2
-        # x,y,w,h = 1,2,3,4
+        
         if len(contours) == 0:
-            rotate_command("R", abs(width_center - center_rectangle))
+            rotate_command("L", abs(width_center - center_rectangle))
             print("IA NI4EGO NE VIJU")
             print("!              ", end="")
         else:
@@ -183,29 +195,32 @@ def gen(camera):
                         continue
 
   
-        rotate_command("R", abs(width_center - center_rectangle))
+        rotate_command("L", abs(width_center - center_rectangle))
         print("IA NI4EGO NE VIJU")
         print("!              ", end="")
 
 
         time.sleep(1)
-        ret, jpeg = cv2.imencode('.jpg', img)
-        yield (b'--frame\r\n'
-            b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
+        # ret, jpeg = cv2.imencode('.jpg', img)
+        # yield (b'--frame\r\n'
+        #     b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
 
 
 
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+# @app.route('/video_feed')
+# def video_feed():
+#     return Response(gen(VideoCamera()),
+#                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':
     rospy.init_node("cv_camera")
     # time.sleep(5)
     init_cv()
-    # gen(VideoCamera())
+    time.sleep(11)
+    plstr = "/home/ubuntu/Project-WALLE/catkin_ws/src/walle/scripts/sounds/robo-short-72.wav"
+    playsound(plstr)
+    gen(VideoCamera())
 
-    app.run(host='0.0.0.0', debug=True)
+    # app.run(host='0.0.0.0', debug=True)
