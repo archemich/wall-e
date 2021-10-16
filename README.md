@@ -105,3 +105,13 @@
     4. rosrun beginner_tutorials talker.py   
     5. rosrun beginner_tutorials listener.py 
     ```
+    
+Если когда-нибудь надо будет статью
+1. http://earchive.tpu.ru/bitstream/11683/47752/1/TPU541998.pdf
+2. https://medium.com/nuances-of-programming/%D0%BE%D0%B1%D0%BD%D0%B0%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%BE%D0%B9-%D1%81%D0%B5%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D0%B8-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-python-9128814bc55c
+3. https://habr.com/ru/post/332464/
+4. https://cyberleninka.ru/article/n/avtonomnaya-navigatsiya-mobilnogo-robota-na-osnove-ultrazvukovogo-datchika-izmereniya-rasstoyaniy/viewer
+5. https://cyberleninka.ru/search?q=%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0%20%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BD%D0%BE%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B0&page=6
+6. https://www.reddit.com/r/ROS/comments/lywv8s/rospy_vs_roscpp/
+7. https://github.com/aikoncwd/rpi-benchmark
+8. https://github.com/ros/meta-ros/wiki/OpenEmbedded-Build-Instructions#add-meta-ros-to-an-existing-openembedded-project
