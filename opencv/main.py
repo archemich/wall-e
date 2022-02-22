@@ -27,18 +27,18 @@ def index():
 
 def gen(camera):
     while True:
-        USLOVNAYA_PEREMENNAYA = 2
+        USLOVNAYA_PEREMENNAYA = 0
         RECTCOLOR = (103, 143, 134)
         RTHICK = 2
         if(USLOVNAYA_PEREMENNAYA == 0):
-            hsv_min = np.array((51,49,47), np.uint8)
-            hsv_max = np.array((84,255,255), np.uint8)
+            hsv_min = np.array((44,69,164), np.uint8)
+            hsv_max = np.array((74,255,255), np.uint8)
         elif USLOVNAYA_PEREMENNAYA == 1:
             hsv_min = np.array((169,97,35), np.uint8)
             hsv_max = np.array((255,255,255), np.uint8)
         elif USLOVNAYA_PEREMENNAYA == 2:
-            hsv_min = np.array((90,134,65), np.uint8)
-            hsv_max = np.array((120,209,255), np.uint8)
+            hsv_min = np.array((90,123,125), np.uint8)
+            hsv_max = np.array((123,255,255), np.uint8)
 
 
         BLOBSIZE_STOP = 40000
